@@ -3,16 +3,22 @@ import logo from './logo.svg';
 import './App.css';
 
 const App = () => {
-  const [newTodo, setNewTodo] = useState('')
-  const [todos, setTodos] = useState([
+  let todosInitialState = [
     { id: 1, name: 'Buy some clothes' },
     { id: 2, name: 'Write some code' },
     { id: 3, name: 'Write some code' },
     { id: 4, name: 'Play golf' },
-  ])
+  ]
+  
+  const [newTodo, setNewTodo] = useState('')
+  const [todos, setTodos] = useState(todosInitialState)
 
   const handleInputChange = (event) => {
     setNewTodo(event.target.value)
+  }
+
+  const addTodo = () => {
+    setTodos([...todos, {id: todos.length + 1, name: newTodo}])
   }
   
   return (
@@ -32,6 +38,13 @@ const App = () => {
           onChange={handleInputChange}
           value={newTodo}
         />
+
+        <button
+          className="btn-info form-control mb-4"
+          onClick={addTodo}
+        >
+          Add todo
+        </button>
         
         <ul className="list-group">
           {

@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
+const App = () => {
+  const [todos, setTodos] = useState([
+    { id: 1, name: 'Buy some clothes' },
+    { id: 2, name: 'Write some code' },
+    { id: 3, name: 'Write some code' },
+    { id: 4, name: 'Play golf' },
+  ])
+  
   return (
     <div className="App">
       <header className="App-header">
@@ -12,9 +19,11 @@ function App() {
       <div className="container">
         <h2 className="text-center">Todo</h2>
         <ul className="list-group">
-          <li className="list-group-item">Buy some clothes</li>
-          <li className="list-group-item">Write some code</li>
-          <li className="list-group-item">Watch netflix</li>
+          {
+            todos.map(todo => (
+              <li className="list-group-item">{todo.name}</li>
+            ))
+          }
         </ul>
       </div>
     </div>

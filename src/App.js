@@ -13,6 +13,7 @@ const App = () => {
   const [editingTodo, setEditingTodo] = useState(false)
   const [editingIndex, setEditingIndex] = useState(null)
   const [notification, setNotification] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   const apiUrl = 'https://5ca83ceb8e58df0014603b00.mockapi.io'
 
@@ -21,6 +22,7 @@ const App = () => {
       const response = await Axios.get(`${apiUrl}/todos`)
 
       setTodos(response.data)
+      setLoading(false)
     }
 
     fetchData()
@@ -111,7 +113,12 @@ const App = () => {
         </button>
         
         {
-          !editingTodo &&
+          loading &&
+          <div className="spinner-border" role="status"></div>
+        }
+
+        {
+          (!editingTodo || loading) &&
           <ul className="list-group">
             {
               todos.map((todo, index) => (

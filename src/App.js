@@ -13,6 +13,7 @@ const App = () => {
   const [newTodo, setNewTodo] = useState('')
   const [todos, setTodos] = useState(todosInitialState)
   const [editingTodo, setEditingTodo] = useState(false)
+  const [editingIndex, setEditingIndex] = useState(null)
 
   const handleInputChange = (event) => {
     setNewTodo(event.target.value)
@@ -27,9 +28,16 @@ const App = () => {
     const todo = todos[index]
     setEditingTodo(true)
     setNewTodo(todos[index].name)
+    setEditingIndex(index)
   }
 
-  const updateTodo = (index) => {
+  const updateTodo = () => {
+    
+    todos[editingIndex].name = newTodo
+    setTodos([...todos])
+    setEditingIndex(null)
+    setEditingTodo(false)
+    setNewTodo('')
 
   }
 
@@ -58,7 +66,7 @@ const App = () => {
 
         <button
           className="btn-info form-control mb-4"
-          onClick={addTodo}
+          onClick={ !editingTodo ? addTodo : updateTodo }
         >
           { editingTodo ? 'Update todo' : 'Add todo' }
         </button>

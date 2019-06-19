@@ -42,7 +42,7 @@ const App = () => {
     const response = await Axios.post(`${apiUrl}/todos`, {
       name: newTodo
     })
-    
+
     setTodos([...todos, {id: response.data.id, name: newTodo}])
     setNewTodo('')
     alert('Todo added successfully')
@@ -63,7 +63,9 @@ const App = () => {
     alert('Todo updated successfully')
   }
 
-  const deleteTodo = (index) => {
+  const deleteTodo = async (index) => {
+    await Axios.delete(`${apiUrl}/todos/${todos[index].id}`)
+
     todos.splice(index, 1)
     setTodos([...todos])
     alert('Todo deleted successfully')

@@ -91,8 +91,9 @@ const App = () => {
         />
 
         <button
-          className="btn-info form-control mb-4"
+          className={ newTodo.length < 5 ? "btn-default form-control mb-4" : "btn-info form-control mb-4" }
           onClick={ !editingTodo ? addTodo : updateTodo }
+          disabled={ newTodo.length < 5 }
         >
           { editingTodo ? 'Update todo' : 'Add todo' }
         </button>

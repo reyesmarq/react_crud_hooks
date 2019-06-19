@@ -54,8 +54,14 @@ const App = () => {
     setEditingIndex(index)
   }
 
-  const updateTodo = () => {
-    todos[editingIndex].name = newTodo
+  const updateTodo = async () => {
+    const response = await Axios.put(`${apiUrl}/todos/${todos[editingIndex].id}`, {
+      name: newTodo
+    })
+
+    console.log(response)
+    
+    todos[editingIndex].name = response.data.name
     setTodos([...todos])
     setEditingIndex(null)
     setEditingTodo(false)

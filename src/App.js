@@ -23,10 +23,14 @@ const App = () => {
     setNewTodo('');
   }
 
-  const updateTodo = (index) => {
+  const editTodo = (index) => {
     const todo = todos[index]
     setEditingTodo(true)
     setNewTodo(todos[index].name)
+  }
+
+  const updateTodo = (index) => {
+
   }
 
   const deleteTodo = (index) => {
@@ -59,28 +63,32 @@ const App = () => {
           { editingTodo ? 'Update todo' : 'Add todo' }
         </button>
         
-        <ul className="list-group">
-          {
-            todos.map((todo, index) => (
-              <li key={todo.id} className="list-group-item">
-                {todo.name}
+        {
+          !editingTodo &&
+          <ul className="list-group">
+            {
+              todos.map((todo, index) => (
+                <li key={todo.id} className="list-group-item">
+                  {todo.name}
 
-                <button
-                  className="btn-sm btn btn-danger ml-4"
-                  onClick={ () => { deleteTodo(index) } }
-                >
-                  X
-                </button>
-                <button
-                  className="btn-sm btn btn-info ml-4"
-                  onClick={ () => { updateTodo(index) } }
-                >
-                  U
-                </button>
-              </li>
-            ))
-          }
-        </ul>
+                  <button
+                    className="btn-sm btn btn-danger ml-4"
+                    onClick={ () => { deleteTodo(index) } }
+                  >
+                    X
+                  </button>
+                  <button
+                    className="btn-sm btn btn-info ml-4"
+                    onClick={ () => { editTodo(index) } }
+                  >
+                    U
+                  </button>
+                </li>
+              ))
+            }
+          </ul>
+        }
+        
       </div>
     </div>
   );

@@ -12,6 +12,7 @@ const App = () => {
   
   const [newTodo, setNewTodo] = useState('')
   const [todos, setTodos] = useState(todosInitialState)
+  const [editingTodo, setEditingTodo] = useState(false)
 
   const handleInputChange = (event) => {
     setNewTodo(event.target.value)
@@ -22,8 +23,13 @@ const App = () => {
     setNewTodo('');
   }
 
+  const updateTodo = (index) => {
+    const todo = todos[index]
+    setEditingTodo(true)
+    setNewTodo(todos[index].name)
+  }
+
   const deleteTodo = (index) => {
-    console.log(todos)
     todos.splice(index, 1)
     setTodos([...todos])
   }
@@ -50,7 +56,7 @@ const App = () => {
           className="btn-info form-control mb-4"
           onClick={addTodo}
         >
-          Add todo
+          { editingTodo ? 'Update todo' : 'Add todo' }
         </button>
         
         <ul className="list-group">
@@ -64,6 +70,12 @@ const App = () => {
                   onClick={ () => { deleteTodo(index) } }
                 >
                   X
+                </button>
+                <button
+                  className="btn-sm btn btn-info ml-4"
+                  onClick={ () => { updateTodo(index) } }
+                >
+                  U
                 </button>
               </li>
             ))

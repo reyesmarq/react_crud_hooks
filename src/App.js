@@ -12,18 +12,28 @@ const App = () => {
     { id: 4, name: 'Play golf' },
   ]
 
+  // state
+  const [newTodo, setNewTodo] = useState('')
+  const [todos, setTodos] = useState(todosInitialState)
+  const [editingTodo, setEditingTodo] = useState(false)
+  const [editingIndex, setEditingIndex] = useState(null)
+  const [notification, setNotification] = useState(null)
+
   const generateTodoId = () => {
     const lastTodo = todos[todos.length - 1]
     if (lastTodo) return lastTodo.id + 1
 
     return 1
   }
-  
-  const [newTodo, setNewTodo] = useState('')
-  const [todos, setTodos] = useState(todosInitialState)
-  const [editingTodo, setEditingTodo] = useState(false)
-  const [editingIndex, setEditingIndex] = useState(null)
 
+  const alert = (notification) => {
+    setNotification(notification)
+
+    setTimeout(() => {
+      setNotification(null)
+    }, 2000)
+  }
+  
   const handleInputChange = (event) => {
     setNewTodo(event.target.value)
   }
@@ -31,6 +41,7 @@ const App = () => {
   const addTodo = () => {
     setTodos([...todos, {id: generateTodoId(), name: newTodo}])
     setNewTodo('')
+    alert('Todo added successfully')
   }
 
   const editTodo = (index) => {
@@ -40,18 +51,18 @@ const App = () => {
   }
 
   const updateTodo = () => {
-    
     todos[editingIndex].name = newTodo
     setTodos([...todos])
     setEditingIndex(null)
     setEditingTodo(false)
     setNewTodo('')
-
+    alert('Todo updated successfully')
   }
 
   const deleteTodo = (index) => {
     todos.splice(index, 1)
     setTodos([...todos])
+    alert('Todo deleted successfully')
   }
   
   return (
@@ -63,6 +74,13 @@ const App = () => {
       <div className="container">
         <h2 className="text-center">Todo</h2>
 
+        {
+          notification &&
+          <div className="alert alert-success">
+            <p className="text-center">{ notification }</p>
+          </div>
+        }
+        
         <input
           type="text"
           name="todo"

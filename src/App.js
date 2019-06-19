@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import logo from './logo.svg'
+import './App.css'
+
+import ListItem from './ListItem'
 
 const App = () => {
   let todosInitialState = [
@@ -9,6 +11,13 @@ const App = () => {
     { id: 3, name: 'fix scheduler' },
     { id: 4, name: 'Play golf' },
   ]
+
+  const generateTodoId = () => {
+    const lastTodo = todos[todos.length - 1]
+    if (lastTodo) return lastTodo.id + 1
+
+    return 1
+  }
   
   const [newTodo, setNewTodo] = useState('')
   const [todos, setTodos] = useState(todosInitialState)
@@ -20,12 +29,11 @@ const App = () => {
   }
 
   const addTodo = () => {
-    setTodos([...todos, {id: todos.length + 1, name: newTodo}])
-    setNewTodo('');
+    setTodos([...todos, {id: generateTodoId(), name: newTodo}])
+    setNewTodo('')
   }
 
   const editTodo = (index) => {
-    const todo = todos[index]
     setEditingTodo(true)
     setNewTodo(todos[index].name)
     setEditingIndex(index)
@@ -76,22 +84,14 @@ const App = () => {
           <ul className="list-group">
             {
               todos.map((todo, index) => (
-                <li key={todo.id} className="list-group-item">
-                  {todo.name}
-
-                  <button
-                    className="btn-sm btn btn-danger ml-4"
-                    onClick={ () => { deleteTodo(index) } }
-                  >
-                    X
-                  </button>
-                  <button
-                    className="btn-sm btn btn-info ml-4"
-                    onClick={ () => { editTodo(index) } }
-                  >
-                    U
-                  </button>
-                </li>
+                
+                <ListItem
+                  key={ todo.id }
+                  todo={ todo }
+                  editTodo={ () => { editTodo(index) } }
+                  deleteTodo={ () =>  { deleteTodo(index) } }
+                />
+                
               ))
             }
           </ul>
@@ -99,7 +99,7 @@ const App = () => {
         
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -26,20 +26,6 @@ const App = () => {
     fetchData()
   }, [])
 
-  // async componentDidMount() {
-  //   const response = await axios.get(`${this.apiUrl}/todos`)
-  //   this.setState({
-  //     todos: response.data
-  //   })
-  // }
-
-  const generateTodoId = () => {
-    const lastTodo = todos[todos.length - 1]
-    if (lastTodo) return lastTodo.id + 1
-
-    return 1
-  }
-
   const alert = (notification) => {
     setNotification(notification)
 
@@ -52,8 +38,12 @@ const App = () => {
     setNewTodo(event.target.value)
   }
 
-  const addTodo = () => {
-    setTodos([...todos, {id: generateTodoId(), name: newTodo}])
+  const addTodo = async () => {
+    const response = await Axios.post(`${apiUrl}/todos`, {
+      name: newTodo
+    })
+    
+    setTodos([...todos, {id: response.data.id, name: newTodo}])
     setNewTodo('')
     alert('Todo added successfully')
   }

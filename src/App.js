@@ -6,7 +6,7 @@ const App = () => {
   let todosInitialState = [
     { id: 1, name: 'Buy some clothes' },
     { id: 2, name: 'Write some code' },
-    { id: 3, name: 'Write some code' },
+    { id: 3, name: 'fix scheduler' },
     { id: 4, name: 'Play golf' },
   ]
   
@@ -19,6 +19,13 @@ const App = () => {
 
   const addTodo = () => {
     setTodos([...todos, {id: todos.length + 1, name: newTodo}])
+    setNewTodo('');
+  }
+
+  const deleteTodo = (index) => {
+    console.log(todos)
+    todos.splice(index, 1)
+    setTodos([...todos])
   }
   
   return (
@@ -48,8 +55,17 @@ const App = () => {
         
         <ul className="list-group">
           {
-            todos.map(todo => (
-              <li key={todo.id} className="list-group-item">{todo.name}</li>
+            todos.map((todo, index) => (
+              <li key={todo.id} className="list-group-item">
+                {todo.name}
+
+                <button
+                  className="btn-sm btn btn-danger ml-4"
+                  onClick={ () => { deleteTodo(index) } }
+                >
+                  X
+                </button>
+              </li>
             ))
           }
         </ul>

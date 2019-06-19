@@ -1,23 +1,37 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import logo from './logo.svg'
 import './App.css'
 
 import ListItem from './ListItem'
 
-const App = () => {
-  let todosInitialState = [
-    { id: 1, name: 'Buy some clothes' },
-    { id: 2, name: 'Write some code' },
-    { id: 3, name: 'fix scheduler' },
-    { id: 4, name: 'Play golf' },
-  ]
+import Axios from 'axios'
 
-  // state
+const App = () => {
+
   const [newTodo, setNewTodo] = useState('')
-  const [todos, setTodos] = useState(todosInitialState)
+  const [todos, setTodos] = useState([])
   const [editingTodo, setEditingTodo] = useState(false)
   const [editingIndex, setEditingIndex] = useState(null)
   const [notification, setNotification] = useState(null)
+
+  const apiUrl = 'https://5ca83ceb8e58df0014603b00.mockapi.io'
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await Axios.get(`${apiUrl}/todos`)
+
+      setTodos(response.data)
+    }
+
+    fetchData()
+  }, [])
+
+  // async componentDidMount() {
+  //   const response = await axios.get(`${this.apiUrl}/todos`)
+  //   this.setState({
+  //     todos: response.data
+  //   })
+  // }
 
   const generateTodoId = () => {
     const lastTodo = todos[todos.length - 1]
